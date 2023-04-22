@@ -4,11 +4,18 @@ import toNewMetricEntry from '../utils';
 
 const router = express.Router();
 
-router.get('/', (_req, res) => {
-    res.send(metricServices.getMetrics());
+router.get('/api/metrics', (_req, res, next) => {
+    try {
+        res.json(metricServices.getMetrics());
+    }
+    catch (error: unknown) {
+        if (error instanceof Error) {
+            next(error)
+        }
+    }
 });
 
-router.post('/', (req, res) => {
+router.post('/api/metrics', (req, res, next) => {
     try {
         const newMetricEntry = toNewMetricEntry(req.body);
         const addedMetricEntries = metricServices.addMetric(newMetricEntry);
@@ -16,7 +23,7 @@ router.post('/', (req, res) => {
     }
     catch (error: unknown) {
         if (error instanceof Error) {
-            return res.status(400).send(error.message);
+            next(error)
         } 
     }
 });
