@@ -18,7 +18,6 @@ const isName = (param: any): boolean => {
 // validation of timestamp for new metric entries
 const parseTimeStamp = (timeStampFromReq: any): string => {
     const formatTimeStampFromReq = new Date(timeStampFromReq).toISOString();
-    console.log(formatTimeStampFromReq);
     if (!isString(formatTimeStampFromReq)) {
         throw new Error('Timestamp data type is incorrect.');
     } 
@@ -50,7 +49,6 @@ const parseName = (nameFromReq: any): Name => {
 
 // validation of values for new metric entries
 const parseValue = (valueFromReq: any): boolean => {
-    console.log(valueFromReq);
     if (valueFromReq === null || valueFromReq === undefined) {
         throw new Error('Please, make sure to enter a value.');
     }
