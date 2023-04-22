@@ -33,6 +33,6 @@ mongoose.connect(connectionStr, {
             console.error('Error inserting metrics data:', error);
           }
         
-    //db.close();
+    db.close();
 
     });
