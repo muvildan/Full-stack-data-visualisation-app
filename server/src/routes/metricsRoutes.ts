@@ -8,11 +8,6 @@ router.get('/', (_req, res) => {
     res.send(metricServices.getMetrics());
 });
 
-// router.get('/:name', (req, res) => {
-//     const metric = metricServices.findByName(req.params.name);
-//     return (metric != null) ? res.send(metric) : res.sendStatus(404);
-// });
-
 router.post('/', (req, res) => {
     try {
         const newMetricEntry = toNewMetricEntry(req.body);

@@ -1,4 +1,5 @@
 export type TimeStamp = string;
+export type Value = boolean;
 export enum Name {
     newVisitor = 'newVisitor',
     fullScrollDown = 'fullScrollDown',
@@ -7,7 +8,6 @@ export enum Name {
     formInteraction = 'formInteraction',
     applicationSubmitted = 'applicationSubmitted'
 };
-export type Value = boolean;
 
 export interface MetricEntry {
     timeStamp: TimeStamp
