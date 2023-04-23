@@ -5,11 +5,12 @@ import dotenv from "dotenv";
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 
 interface ENV {
-  PORT: number | undefined;
-  HOST: string | undefined;
-  MONGO_USER: string | undefined;
-  MONGO_PWD: string | undefined;
-  MONGO_PORT: number | undefined;
+  PORT?: number;
+  HOST?: string;
+  MONGO_USER?: string;
+  MONGO_PWD?: string;
+  MONGO_PORT?: number;
+  MONGO_URL?: string;
 }
 
 export type Config = Required<ENV>
@@ -20,7 +21,8 @@ const getConfig = (): ENV => {
     HOST: process.env.HOST,
     MONGO_USER: process.env.MONGO_USER,
     MONGO_PWD: process.env.MONGO_PWD,
-    MONGO_PORT: process.env.PORT ? Number(process.env.PORT) : undefined
+    MONGO_PORT: process.env.PORT ? Number(process.env.PORT) : undefined,
+    MONGO_URL: process.env.MONGO_URL
   };
 };
 

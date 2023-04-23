@@ -6,8 +6,9 @@ import Metric from '../models/metricModel';
 
 const user = config.MONGO_USER;
 const pwd = config.MONGO_PWD;
+const url = config.MONGO_URL;
 
-const connectionStr = `mongodb+srv://${user}:${pwd}@takehomechallenge.pervyt1.mongodb.net/metricsDB?retryWrites=true&w=majority`;
+const connectionStr = `mongodb+srv://${user}:${pwd}@${url}`;
 
 mongoose.connect(connectionStr, {
     useNewUrlParser: true,
@@ -29,10 +30,8 @@ mongoose.connect(connectionStr, {
           try {
             await Metric.insertMany(metrics);
             console.log('Metrics data inserted successfully');
+            db.close();
           } catch (error : unknown) {
             console.error('Error inserting metrics data:', error);
           }
-        
-    db.close();
-
     });

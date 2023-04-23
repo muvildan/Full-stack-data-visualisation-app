@@ -1,10 +1,11 @@
 import express from 'express';
 import * as metricServices from '../services/metricsServices';
-import toNewMetricEntry from '../utils';
+// import toNewMetricEntry from '../utils';
+import {storeMetric} from '../models/metricModel';
 
-const router = express.Router();
+const metricsRouter = express.Router();
 
-router.get('/api/metrics', (_req, res, next) => {
+metricsRouter.get('/api/metrics', (_req, res, next) => {
     try {
         res.json(metricServices.getMetrics());
     }
@@ -15,11 +16,10 @@ router.get('/api/metrics', (_req, res, next) => {
     }
 });
 
-router.post('/api/metrics', (req, res, next) => {
+metricsRouter.post('/api/metrics', (req, res, next) => {
     try {
-        const newMetricEntry = toNewMetricEntry(req.body);
-        const addedMetricEntries = metricServices.addMetric(newMetricEntry);
-        res.json(addedMetricEntries);
+        storeMetric(req.body);
+        res.json('ok');
     }
     catch (error: unknown) {
         if (error instanceof Error) {
@@ -28,4 +28,4 @@ router.post('/api/metrics', (req, res, next) => {
     }
 });
 
-export default router;
+export default metricsRouter;
