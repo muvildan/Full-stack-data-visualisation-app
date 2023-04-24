@@ -1,10 +1,9 @@
-import mongoose, { Document, Model, Schema } from 'mongoose';
+import mongoose, { Document, Model, Schema, ConnectOptions } from 'mongoose';
 import config from '../config/config';
 
 const user = config.MONGO_USER;
 const pwd = config.MONGO_PWD;
 const url = config.MONGO_URL;
-
 const connectionStr = `mongodb+srv://${user}:${pwd}@${url}`;
 
 // set up the interface for the metric model
@@ -43,35 +42,68 @@ metricSchema.set('toJSON', {
 const Metric: Model<IMetric> = mongoose.model<IMetric>('Metric', metricSchema);
 
 // create a function to store a metric in the database with mongoose
-export const storeMetric = async (metric: IMetric) => {
-  // init the connetion to mongodb with mongoose
+
+export const storeMultipleMetrics = async (metricsData: IMetric[]) => {
   mongoose.connect(connectionStr, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-  } as mongoose.ConnectOptions)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch((err) => console.log('Could not connect to MongoDB', err));
+} as ConnectOptions)
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((err) => console.log('Could not connect to MongoDB', err));
 
-      const db = mongoose.connection;
+    const db = mongoose.connection;
+    
+    db.on('error', console.error.bind(console, 'connection error:'));
 
-      db.on('error', console.error.bind(console, 'connection error:'));
+    db.once('open', async() => {
+        const metrics = metricsData.map((metric: any) => new Metric({
+            timeStamp: metric.timeStamp,
+            name: metric.name,
+            value: metric.value
+          })); 
+          try {
+            await Metric.insertMany(metrics);
+            db.close();
+          } catch (error : unknown) {
+            console.error('Error inserting metrics data:', error);
+          }
+    });
 
-      db.once('open', async() => {
-            try {
-              const newMetric = new Metric(metric);
-              await newMetric.save();
-              console.log('Metric data inserted successfully');
-              db.close();
-            } catch (error : unknown) {
-              console.error('Error inserting metrics data:', error);
-            }
-      });
+}
+export const storeMetric = async (metric: IMetric) => {
+  try {
+    await mongoose.connect(connectionStr, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    } as mongoose.ConnectOptions);
+    console.log('Connected to MongoDB');
+
+    const newMetric = new Metric(metric);
+    await newMetric.save();
+    console.log('Metric saved successfully');
+  } catch (error) {
+    console.error('Error inserting metrics data:', error);
+  } finally {
+    mongoose.connection.close();
+  }
 };
 
-// create a funtion to get a metric from the database with mongoose by name
-export const getMetricByName = async (name: string) => {
-  const metric = await Metric.find({ name });
-  return metric;
-}
+export const getAllMetrics = async () => {
+  try {
+    await mongoose.connect(connectionStr, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    } as mongoose.ConnectOptions);
+    console.log('Connected to MongoDB');
+
+    const metrics = await Metric.find({});
+    console.log('Retrieved all metrics successfully');
+    return metrics;
+  } catch (error) {
+    console.error('Error retrieving metrics data:', error);
+  } finally {
+    mongoose.connection.close();
+  }
+};
 
 export default Metric;

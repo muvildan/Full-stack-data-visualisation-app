@@ -13,8 +13,10 @@
     "dev": "ts-node-dev src/index.ts",
     "lint": "ts-standard",
     "start": "node build/index.js",
-    "preload": "node build/db/preload.js",
-    "tsc": "rm -rf build && tsc && cp .env build/ && npm run preload && npm run load-env && npm run start",
+    "preload": "node build/tools/generator.js",
+    "tsc": "rm -rf build && tsc && cp .env build/ && npm run load-env && npm run start",
+    "preload-docker": "rm -rf build && tsc && cp .env build/",
+    "docker": "npm run load-env && npm run start",
     "load-env": "node -r dotenv -r dotenv-safe build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

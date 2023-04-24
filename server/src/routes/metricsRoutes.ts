@@ -1,13 +1,14 @@
 import express from 'express';
-import * as metricServices from '../services/metricsServices';
+// import * as metricServices from '../services/metricsServices';
 // import toNewMetricEntry from '../utils';
-import {storeMetric} from '../models/metricModel';
+import {storeMetric, getAllMetrics} from '../models/metricModel';
 
 const metricsRouter = express.Router();
 
-metricsRouter.get('/api/metrics', (_req, res, next) => {
+metricsRouter.get('/api/metrics', async (_req, res, next) => {
     try {
-        res.json(metricServices.getMetrics());
+        let allMetrics = await getAllMetrics();
+        res.json(allMetrics);
     }
     catch (error: unknown) {
         if (error instanceof Error) {

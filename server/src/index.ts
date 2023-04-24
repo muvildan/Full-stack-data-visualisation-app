@@ -6,13 +6,12 @@ import errorHandler from './middleware/handleError';
 
 const app = express();
 app.use(express.json());
-
 // error handling from middleware
 app.use(notFound);
 app.use(errorHandler);
-
+// routes
 app.use('/', metricsRouter);
 
 app.listen(config.PORT, () => {
-  console.log(`Server running on: http://localhost:${config.PORT}/`);
+console.log(`Server running on: http://localhost:${config.PORT}/`);
 });
