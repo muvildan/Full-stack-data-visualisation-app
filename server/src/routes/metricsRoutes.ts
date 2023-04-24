@@ -8,6 +8,10 @@ const metricsRouter = express.Router();
 metricsRouter.get('/api/metrics', async (_req, res, next) => {
     try {
         let allMetrics = await getAllMetrics();
+        res.set({
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+        });
         res.json(allMetrics);
     }
     catch (error: unknown) {

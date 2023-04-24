@@ -1,13 +1,12 @@
-import React from 'react';
 import './App.css';
+import Main from './views/Main';
 
 function App() {
-  const [metrics, setMetrics] = React.useState<object[]>([{}]);
 
 
   return (
     <div className="App">
-      
+      <Main />
     </div>
   );
 }

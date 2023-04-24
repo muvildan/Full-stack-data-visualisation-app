@@ -7,7 +7,6 @@ export enum Name {
     buttonClick = 'buttonClick',
     formInteraction = 'formInteraction',
     applicationSubmitted = 'applicationSubmitted',
-    test = 'test'
 };
 
 export interface MetricEntry {

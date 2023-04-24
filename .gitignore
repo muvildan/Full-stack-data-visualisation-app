@@ -1,1 +1,4 @@
+client/package-lock.json
+client/node_modules/
 client/growth-engineer-challenge/package-lock.json
+server/package-lock.json
