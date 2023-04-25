@@ -7,9 +7,7 @@ COPY package*.json ./
 COPY tsconfig.json ./
 COPY . ./
 
-RUN ls -a
-
 RUN npm install
 
-EXPOSE 8080
-CMD ["npm", "run", "tsc"]
+EXPOSE 3000
+CMD ["npm", "run", "start"]

@@ -2,3 +2,6 @@ client/package-lock.json
 client/node_modules/
 client/growth-engineer-challenge/package-lock.json
 server/package-lock.json
+client/.DS_Store
+server/.DS_Store
+server/public/.DS_Store
