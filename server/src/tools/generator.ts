@@ -10,7 +10,8 @@ const metricName = [
 ];
 
 const Calendar: {
-    weeks: Record<string, { startDay: number, holidays?: number, multiplier?: number[], naturalDays?: number, weekStartDay?: number }>,
+    weeks: Record<string, { startDay: number, holidays?: number, naturalDays?: number, weekStartDay?: number }>,
+    multiplier?: number[],
     nonWorkingDayThreshold: number[],
     workDayThreshold: number[],
     peakThreshold: number,
@@ -29,17 +30,21 @@ const Calendar: {
         week2: {
             startDay: 10,
             holidays: 10,
-            multiplier: [1,1,2,1.9,1.8,1.7,1.6],
         },
         week3: {
             startDay: 17,
-            multiplier: [1.5,1.4,2,1.9,1.8,1.7,1.6],
         },
         week4: {
             startDay: 24,
-            multiplier: [1.5,1.4,1.3,1.2,1.1,1,1],
         },
     },
+    multiplier: [
+        1,1,
+        1,1,1,1,1,1,1,
+        1,1,2,1.9,1.8,1.7,1.6,
+        1.5,1.4,2,1.9,1.8,1.7,1.6,
+        1.5,1.4,1.3,1.2,1.1,1,1
+    ],
     nonWorkingDayThreshold: [
         25, 100
     ],
@@ -50,19 +55,18 @@ const Calendar: {
     peakTime: [10, 18],
 }
 
-Object.keys(Calendar.weeks).forEach((week: string) => {
+Object.keys(Calendar.weeks).forEach( async (week: string) => {
     let data = [];
     let startDay = Calendar.weeks[week].startDay;
     let naturalDays = Calendar.weeks[week].naturalDays || 7;
-    let weekStartDay = Calendar.weeks[week].weekStartDay || 1;
-    let weekDay = 1;
     let nonWorkingDayThreshold = Calendar.nonWorkingDayThreshold;
     let workDayThreshold = Calendar.workDayThreshold;
     let sessions = 0;
-    let multiplier = Calendar.weeks[week].multiplier || [1,1,1,1,1,1,1];
+    let multiplier = Calendar.multiplier || [1,1,1,1,1,1,1];
 
-    for (let i = startDay; i < startDay + naturalDays; i++, weekDay++) {
-        let isWeekend = (naturalDays < 7 && weekStartDay > 5) || i > startDay + 4 ? true : false;
+    for (let i = startDay; i < startDay + naturalDays; i++) {
+        const dayTimestamp = new Date(2023, 3, i);
+        let isWeekend = (dayTimestamp.getDay() === 6) || (dayTimestamp.getDay() === 0);
 
         if (isWeekend) {
             sessions = Math.floor(Math.random() * nonWorkingDayThreshold[1]) + nonWorkingDayThreshold[0];
@@ -70,25 +74,31 @@ Object.keys(Calendar.weeks).forEach((week: string) => {
             sessions = Math.floor(Math.random() * workDayThreshold[1]) + workDayThreshold[0];
         }
 
-        sessions = Math.floor(sessions * multiplier[weekDay-1]);
+        console.log('sessions ' + sessions + ' multiplier ' + multiplier[dayTimestamp.getDate()-1]);
+
+        sessions = Math.floor(sessions * multiplier[dayTimestamp.getDate()-1]);
+
+        console.log('day ' + i + ' should have ' + sessions + ' sessions');
 
         for (let z = 0; z < sessions; z++) {
+            // console.log(getRandomTimestamp(dayTimestamp));
             const metricEntry = new Metric({
-                timeStamp: getRandomTimestamp(i),
+                timeStamp: getRandomTimestamp(dayTimestamp),
                 name: metricName[Math.floor(Math.random() * metricName.length) + 0],
                 value: true
             });
             data.push(metricEntry);
         }
-
     }
 
-    storeMultipleMetrics(data);
+    console.log('storing week ' + week);
+    await storeMultipleMetrics(data);
 });
 
-function getRandomTimestamp(day: number): string {
 
-    const peak = Math.floor(Math.random() * 10) + 1;
+function getRandomTimestamp(day: Date): string {
+
+    const peak = Math.floor(Math.random() * 24) + 1;
 
     let startTimestamp = new Date().setHours(18, 0, 0, 0);
     let endTimestamp = new Date().setHours(10, 0, 0, 0);
@@ -105,10 +115,13 @@ function getRandomTimestamp(day: number): string {
     const randomTimestamp = startTimestamp + randomOffset;
 
     const date = new Date(randomTimestamp);
-    date.setDate(day);
+    date.setDate(day.getDate());
     
     const isoString = date.toISOString();
     const formattedString = isoString.slice(0, 19) + 'Z';
     
     return formattedString;
   }
+
+
+
