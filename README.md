@@ -12,13 +12,14 @@ After doing some research, I've realised that I would like to start off by anali
 Some of the metrics I will be studying are: new visitors, full scroll downs on the target page, apply button hovers, apply button clicks, application form interactions, and application submissions.
 
 ## Technologies Used
-- TypeScript 
-- Node.js
-- Express
-- MongoDB
-- React
+
+- <img height="25" src="https://user-images.githubusercontent.com/25181517/183890598-19a0ac2d-e88a-4005-a8df-1ee36782fde1.png" alt="TypeScript" title="TypeScript" /> TypeScript
+- <img height="25" src="https://user-images.githubusercontent.com/25181517/183568594-85e280a7-0d7e-4d1a-9028-c8c2209e073c.png" alt="Node.js" title="Node.js" /> Node.js
+- <img height="25" src="https://user-images.githubusercontent.com/25181517/183859966-a3462d8d-1bc7-4880-b353-e2cbed900ed6.png" alt="Express" title="Express" /> Express 
+- <img height="25" src="https://user-images.githubusercontent.com/25181517/182884177-d48a8579-2cd0-447a-b9a6-ffc7cb02560e.png" alt="mongoDB" title="mongoDB" /> MongoDB
+- <img height="25" src="https://user-images.githubusercontent.com/25181517/183897015-94a058a6-b86e-4e42-a37f-bf92061753e5.png" alt="React" title="React" /> React
+- <img height="25" src="https://user-images.githubusercontent.com/25181517/202896760-337261ed-ee92-4979-84c4-d4b829c7355d.png" alt="Tailwind CSS" title="Tailwind CSS" /> TailwindCSS
 - Chart.js
-- TailwindCSS
 
 ## Prerequisites
 - Docker
