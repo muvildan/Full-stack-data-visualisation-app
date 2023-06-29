@@ -42,7 +42,6 @@ metricSchema.set('toJSON', {
 const Metric: Model<IMetric> = mongoose.model<IMetric>('Metric', metricSchema);
 
 // create a function to store a metric in the database with mongoose
-
 export const storeMultipleMetrics = async (metricsData: IMetric[]) => {
   mongoose.connect(connectionStr, {
     useNewUrlParser: true,
