@@ -7,7 +7,7 @@ The application has been built with a use case in mind:
 
 I am an employer who has recently been getting low traffic and candidates in some of the open roles of my careers website. I need, hence, to generate a metrics visualisation tool to base my future decisions on data and not just on feelings. 
 
-After doing some research, I've realised that I would like to start off by analizing the impact of doing a LinkedIn post of my highest-prio roles once a week. The final objective is to understand wheter it is worth it or not to pay for our LinkedIn Premium subscription. 
+After doing some research, I've realised that I would like to start off by analizing the impact of doing a LinkedIn post of my highest-prio roles once a week. The final objective is to understand whether it is worth it or not to pay for our LinkedIn Premium subscription. 
 
 Some of the metrics I will be studying are: new visitors, full scroll downs on the target page, apply button hovers, apply button clicks, application form interactions, and application submissions.
 
